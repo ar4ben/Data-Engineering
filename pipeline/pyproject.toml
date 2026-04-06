@@ -8,12 +8,14 @@ dependencies = [
     "pandas>=3.0.1",
     "psycopg2-binary>=2.9.11",
     "pyarrow>=23.0.1",
+    "python-dotenv>=1.2.2",
     "sqlalchemy>=2.0.48",
     "tqdm>=4.67.3",
 ]
 
 [dependency-groups]
 dev = [
+    "dlt[bigquery,duckdb,gs]>=1.24.0",
     "jupyter>=1.1.1",
     "pgcli>=4.4.0",
 ]
