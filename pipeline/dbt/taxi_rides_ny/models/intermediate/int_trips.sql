@@ -58,5 +58,5 @@ select * from cleaned_and_enriched
 -- Deduplicate: if multiple trips match (same vendor, second, location, service), keep first
 qualify row_number() over(
     partition by vendor_id, pickup_datetime, pickup_location_id, service_type
-    order by cast(dropoff_datetime as varchar)
+    order by dropoff_datetime
 ) = 1

@@ -2,12 +2,13 @@
 -- unique_key: which key to use for update (mandatory for merge)
 -- strategy merge: create rows if new, update if exist. Possible alternative: append (only create new as insert into target select ... where trips.pickup_datetime > (select max(pickup_datetime) from target))
 -- append_new_columns - add new columns if not existed
-{# {{
+{{
   config(
     materialized='incremental',
-    incremental_strategy='append'
-  )
-}} #}
+    unique_key='trip_id',
+    incremental_strategy='merge',
+    on_schema_change='append_new_columns'  )
+}}
 
 -- it will be converted into:
 -- MERGE target t
@@ -65,8 +66,8 @@ left join {{ ref('dim_zones') }} as pz
 left join {{ ref('dim_zones') }} as dz
     on trips.dropoff_location_id = dz.location_id
 
-{# -- if the table already exists ant this is not the first run:
+-- if the table already exists ant this is not the first run:
 {% if is_incremental() %}
   -- Only process new trips that don't exist in the table, based on pickup datetime
   where trips.pickup_datetime > (select max(pickup_datetime) from {{ this }}) -- 'this' is the existed table from the first run.
-{% endif %} #}
+{% endif %}

@@ -1,3 +1,4 @@
+
 with green_trips as (
     select
         vendor_id,
