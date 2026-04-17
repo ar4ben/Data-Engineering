@@ -1,4 +1,5 @@
 creds.json
+*duckdb.db
 .*
 *.parquet
 data
